@@ -7,32 +7,20 @@ class SceneObject {
 	//2D game object
 public:
 	SceneObject();
-	virtual ~SceneObject() {
-		for (SceneObject* child : m_children) {
-			delete child;
-		}
-	};
+	virtual ~SceneObject();;
 
-	void addChild(SceneObject * child) {
-		if (child->m_parent == nullptr) {
-			child->m_parent = this;
-			m_children.push_back(child);
-		}
+	void addChild(SceneObject * child);
 
-	}
+	virtual void update(float deltaTime);
 
-	virtual void update(float deltaTime) {
-		for (SceneObject* child : m_children) {
-			child->update(deltaTime);
-		}
-	}
+	virtual void draw(aie::Renderer2D* renderer);
 
-	virtual void draw(aie::Renderer2D* renderer) {
-		for (SceneObject* child : m_children) {
-			child->draw(renderer);
-		}
-	}
 
+	void updateGlobalTransform();
+
+
+	///////MAKE MOVE THINGS N STUFF 
+	//CHANGE UP THE LOCAL THEN CALL UPDATE GLOBAL
 
 protected:
 	Matrix3 m_globalTransform;

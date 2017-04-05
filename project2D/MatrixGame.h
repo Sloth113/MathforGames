@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "Renderer2D.h"
 #include "Audio.h"
+#include "SpriteObject.h"
 
 class MatrixGame : public aie::Application {
 public:
@@ -50,6 +51,12 @@ protected:
 	Vector2 m_betweenV;
 
 	Matrix3 shipMat;
+
+
+
+	//Scene heirarchie stuff
+	SpriteObject* m_spriteRoot;
+//	SceneObject* m_shapeRoot;
 
 
 

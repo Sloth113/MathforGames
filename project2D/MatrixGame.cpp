@@ -53,6 +53,8 @@ bool MatrixGame::startup() {
 	shipMat.stdPrintMat();
 
 
+	m_spriteRoot = new SpriteObject();
+
 
 	return true;
 }
@@ -128,7 +130,7 @@ void MatrixGame::update(float deltaTime) {
 	
 	
 	shipMat.translate(shipVel);
-	shipMat.stdPrintMat();
+	//shipMat.stdPrintMat();
 	
 	//Keyboard control
 	// use arrow keys to move camera

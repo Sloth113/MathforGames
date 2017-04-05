@@ -100,7 +100,13 @@ void Matrix3::transpose()
 	}
 }
 
-float * Matrix3::operator[](const int axis)
+
+
+//
+//
+//https://social.msdn.microsoft.com/Forums/vstudio/en-US/517a601d-5e1f-4d72-8927-32e80a094da9/overloading-subscript-operator-separating-setting-and-getting-values?forum=vclanguage
+//http://stackoverflow.com/questions/3581981/overloading-the-c-indexing-subscript-operator-in-a-manner-that-allows-for-r
+Vector3 * Matrix3::operator[](const int axis)
 {
 	return nullptr; //DO THE UNION THING HERE TO MAKE SHIT WORK 
 }
