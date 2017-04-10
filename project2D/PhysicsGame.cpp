@@ -1,4 +1,4 @@
-#include "MatrixGame.h"
+#include "PhysicsGame.h"
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
@@ -6,15 +6,15 @@
 
 
 
-MatrixGame::MatrixGame() {
+PhysicsGame::PhysicsGame() {
 
 }
 
-MatrixGame::~MatrixGame() {
+PhysicsGame::~PhysicsGame() {
 
 }
 
-bool MatrixGame::startup() {
+bool PhysicsGame::startup() {
 	srand(time(NULL));
 	m_2dRenderer = new aie::Renderer2D();
 
@@ -50,14 +50,14 @@ bool MatrixGame::startup() {
 	m_shapeSpd = 100;
 
 	//shipMat = Matrix3(getWindowWidth() / 2, 0, 0, 0, getWindowHeight() / 2, 0, 0,0,1);
-	shipMat = Matrix3(1, 0, 0,	0, 1, 0, getWindowWidth()/2, getWindowHeight()/2, 1);
-	
+	shipMat = Matrix3(1, 0, 0, 0, 1, 0, getWindowWidth() / 2, getWindowHeight() / 2, 1);
+
 	shipMat.stdPrintMat();
 
 
 	m_spriteRoot = new SceneObject();
 	//m_spriteRoot->addChild(new SpriteObject(m_shipTexture));
-
+	/*
 	bulT = new aie::Texture("./textures/bullet.png");
 	enemyTank = new EnemyTank(m_tankBodyTexture);
 	enemyTank->setBullet(bulT);
@@ -67,29 +67,29 @@ bool MatrixGame::startup() {
 	tankBarrlePoint->setLocal(barrelMat);
 	enemyTank->addChild(tankBarrlePoint);
 	SpriteObject * tankBarrel = new SpriteObject(m_tankBrlTexture);
-	
+
 	tankBarrel->setLocal(Matrix3(1, 0, 0, 0, 1, 0, 0, 24, 1));
 	tankBarrlePoint->addChild(tankBarrel);
+	*/
 
 
-	
 	//m_spriteRoot->addChild(new PlayerShip(m_shipTexture));
-	m_spriteRoot->addChild(enemyTank);
+	//m_spriteRoot->addChild();
 
-	
+
 
 
 	return true;
 }
 
-void MatrixGame::shutdown() {
+void PhysicsGame::shutdown() {
 
 
 	delete m_shipTexture;
 	delete m_2dRenderer;
 }
 
-void MatrixGame::update(float deltaTime) {
+void PhysicsGame::update(float deltaTime) {
 
 
 
@@ -134,9 +134,9 @@ void MatrixGame::update(float deltaTime) {
 	// use arrow keys to move ship
 
 
-	
+
 	//shipMat.stdPrintMat();
-	
+
 	//Keyboard control
 	// use arrow keys to move camera
 	if (input->isKeyDown(aie::INPUT_KEY_UP))
@@ -150,7 +150,7 @@ void MatrixGame::update(float deltaTime) {
 
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
 		m_cameraX += 500.0f * deltaTime;
-	
+
 
 
 
@@ -161,7 +161,7 @@ void MatrixGame::update(float deltaTime) {
 		quit();
 }
 
-void MatrixGame::draw() {
+void PhysicsGame::draw() {
 
 	// wipe the screen to the background colour
 	clearScreen();
@@ -187,7 +187,7 @@ void MatrixGame::draw() {
 	// draw the shape thing thats watching
 	m_2dRenderer->setRenderColour(1, 0, 0, 1);
 	for (int i = 0; i < m_shapeAmount; i++) {
-		m_2dRenderer->drawBox(m_shapes[i].getX(), m_shapes[i].getY(), 3, 3, 0);
+	m_2dRenderer->drawBox(m_shapes[i].getX(), m_shapes[i].getY(), 3, 3, 0);
 	}
 	*/
 	m_2dRenderer->setRenderColour(1, 1, 1, 1);

@@ -7,14 +7,12 @@
 #include "Renderer2D.h"
 #include "Audio.h"
 #include "SpriteObject.h"
-#include "PlayerShip.h"
-#include "EnemyTank.h"
 
-class MatrixGame : public aie::Application {
+class PhysicsGame : public aie::Application {
 public:
 
-	MatrixGame();
-	virtual ~MatrixGame();
+	PhysicsGame();
+	virtual ~PhysicsGame();
 
 	virtual bool startup();
 	virtual void shutdown();
@@ -61,10 +59,6 @@ protected:
 
 	//Scene heirarchie stuff
 	SceneObject* m_spriteRoot;
-
-	PlayerShip * player;
-	EnemyTank * enemyTank;
-//	SceneObject* m_shapeRoot;
 
 
 
