@@ -12,6 +12,14 @@ Vector4::Vector4(float x, float y, float z)
 	this->z = z;
 }
 
+Vector4::Vector4(float x, float y, float z, float w)
+{
+	this->x = x;
+	this->y = y;
+	this->z = z;
+	this->w = w;
+}
+
 Vector4::Vector4(Vector3 & vec3)
 {
 	this->x = vec3.getX();
@@ -139,6 +147,11 @@ float Vector4::getY()
 float Vector4::getZ()
 {
 	return z;
+}
+
+float Vector4::getW()
+{
+	return w;
 }
 
 float Vector4::getMagnitued()

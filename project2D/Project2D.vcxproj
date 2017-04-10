@@ -90,11 +90,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application2D.cpp" />
+    <ClCompile Include="EnemyTank.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Matrix2.cpp" />
     <ClCompile Include="Matrix3.cpp" />
+    <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="MatrixGame.cpp" />
+    <ClCompile Include="PlayerShip.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShapeObject.cpp" />
     <ClCompile Include="SpriteObject.cpp" />
@@ -104,10 +107,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application2D.h" />
+    <ClInclude Include="EnemyTank.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Matrix2.h" />
     <ClInclude Include="Matrix3.h" />
+    <ClInclude Include="Matrix4.h" />
     <ClInclude Include="MatrixGame.h" />
+    <ClInclude Include="PlayerShip.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ShapeObject.h" />
     <ClInclude Include="SpriteObject.h" />

@@ -2,9 +2,10 @@
 #include <vector>
 #include "Matrix3.h"
 #include "Renderer2D.h"
+#include "Input.h"
 class SceneObject {
 
-	//2D game object
+	//2D game object, static sprite
 public:
 	SceneObject();
 	virtual ~SceneObject();;
@@ -18,6 +19,9 @@ public:
 
 	void updateGlobalTransform();
 
+	void setLocal(Matrix3);
+
+	Matrix3 getLocal();
 
 	///////MAKE MOVE THINGS N STUFF 
 	//CHANGE UP THE LOCAL THEN CALL UPDATE GLOBAL

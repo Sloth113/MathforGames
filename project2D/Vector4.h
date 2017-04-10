@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "Vector3.h"
 #include <math.h>
 #include <iostream>
@@ -12,6 +11,7 @@ public:
 
 	Vector4();
 	Vector4(float x, float y, float z);
+	Vector4(float x, float y, float z, float w);
 	Vector4(Vector3 & vec3);
 
 	Vector4(Vector2 & vec2);
@@ -44,6 +44,7 @@ public:
 	float getX();
 	float getY();
 	float getZ();
+	float getW();
 
 
 	float getMagnitued();

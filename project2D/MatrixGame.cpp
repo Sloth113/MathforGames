@@ -23,6 +23,8 @@ bool MatrixGame::startup() {
 
 
 	m_shipTexture = new aie::Texture("./textures/ship.png");
+	m_tankBodyTexture = new aie::Texture("./textures/tankRed.png");
+	m_tankBrlTexture = new aie::Texture("./textures/barrelRed.png");
 
 	m_cameraX = 0;
 	m_cameraY = 0;
@@ -53,7 +55,27 @@ bool MatrixGame::startup() {
 	shipMat.stdPrintMat();
 
 
-	m_spriteRoot = new SpriteObject();
+	m_spriteRoot = new SceneObject();
+	//m_spriteRoot->addChild(new SpriteObject(m_shipTexture));
+
+
+	enemyTank = new EnemyTank(m_tankBodyTexture);
+	SceneObject * tankBarrlePoint = new SceneObject();
+	Matrix3 barrelMat = tankBarrlePoint->getLocal();
+	barrelMat.setRotateZ(180);
+	tankBarrlePoint->setLocal(barrelMat);
+	enemyTank->addChild(tankBarrlePoint);
+	SpriteObject * tankBarrel = new SpriteObject(m_tankBrlTexture);
+	
+	tankBarrel->setLocal(Matrix3(1, 0, 0, 0, 1, 0, 0, 24, 1));
+	tankBarrlePoint->addChild(tankBarrel);
+
+
+	
+	//m_spriteRoot->addChild(new PlayerShip(m_shipTexture));
+	m_spriteRoot->addChild(enemyTank);
+
+	
 
 
 	return true;
@@ -81,7 +103,7 @@ void MatrixGame::update(float deltaTime) {
 		m_point.Translate(pointMoveV);
 	}
 
-
+	m_spriteRoot->update(deltaTime);
 
 	//for (int i = 0; i < m_shapeAmount; i++) {
 	//	//Shape logic
@@ -109,42 +131,27 @@ void MatrixGame::update(float deltaTime) {
 
 	//Keyboard control
 	// use arrow keys to move ship
-	int shipRotSpeed = 50; //Angle
-	Matrix3 shipMove;
-	
-	Vector3 shipVel = Vector3(0, 3, 0);
-	Vector3 shipChange = Vector3(0, 2, 0);
 
-	if (input->isKeyDown(aie::INPUT_KEY_W))
-		shipVel = shipVel + shipChange;
-	
-	if (input->isKeyDown(aie::INPUT_KEY_S))
-		shipVel = shipVel - shipChange;
-
-	if (input->isKeyDown(aie::INPUT_KEY_A))
-		shipMat.setRotateZ(shipRotSpeed * deltaTime);
-
-	if (input->isKeyDown(aie::INPUT_KEY_D))
-		shipMat.setRotateZ(-shipRotSpeed * deltaTime);
 
 	
-	
-	shipMat.translate(shipVel);
 	//shipMat.stdPrintMat();
 	
 	//Keyboard control
 	// use arrow keys to move camera
 	if (input->isKeyDown(aie::INPUT_KEY_UP))
-		m_point2.y += 500.0f * deltaTime;
+		m_cameraY += 500.0f * deltaTime;
 
 	if (input->isKeyDown(aie::INPUT_KEY_DOWN))
-		m_point2.y -= 500.0f * deltaTime;
+		m_cameraY -= 500.0f * deltaTime;
 
 	if (input->isKeyDown(aie::INPUT_KEY_LEFT))
-		m_point2.x -= 500.0f * deltaTime;
+		m_cameraX -= 500.0f * deltaTime;
 
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
-		m_point2.x += 500.0f * deltaTime;
+		m_cameraX += 500.0f * deltaTime;
+	
+
+
 
 
 
@@ -183,8 +190,8 @@ void MatrixGame::draw() {
 	}
 	*/
 	m_2dRenderer->setRenderColour(1, 1, 1, 1);
-	m_2dRenderer->drawSpriteTransformed3x3(m_shipTexture, (float *)shipMat);
-	
+	//m_2dRenderer->drawSpriteTransformed3x3(m_shipTexture, (float *)shipMat);
+	m_spriteRoot->draw(m_2dRenderer);
 	/*
 	char text[32];
 	sprintf_s(text, 32, "FPS: %i", getFPS());

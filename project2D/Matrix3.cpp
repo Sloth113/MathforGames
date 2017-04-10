@@ -108,7 +108,7 @@ void Matrix3::transpose()
 //http://stackoverflow.com/questions/3581981/overloading-the-c-indexing-subscript-operator-in-a-manner-that-allows-for-r
 Vector3 * Matrix3::operator[](const int axis)
 {
-	return nullptr; //DO THE UNION THING HERE TO MAKE SHIT WORK 
+	return nullptr; //DO THE UNION THING HERE TO MAKE SHIT WORK ?
 }
 
 

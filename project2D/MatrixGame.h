@@ -7,6 +7,8 @@
 #include "Renderer2D.h"
 #include "Audio.h"
 #include "SpriteObject.h"
+#include "PlayerShip.h"
+#include "EnemyTank.h"
 
 class MatrixGame : public aie::Application {
 public:
@@ -29,6 +31,8 @@ protected:
 
 	aie::Texture*		m_texture;
 	aie::Texture*		m_shipTexture;
+	aie::Texture*		m_tankBodyTexture;
+	aie::Texture*		m_tankBrlTexture;
 
 	float m_cameraX, m_cameraY;
 	float m_timer;
@@ -55,7 +59,10 @@ protected:
 
 
 	//Scene heirarchie stuff
-	SpriteObject* m_spriteRoot;
+	SceneObject* m_spriteRoot;
+
+	PlayerShip * player;
+	EnemyTank * enemyTank;
 //	SceneObject* m_shapeRoot;
 
 

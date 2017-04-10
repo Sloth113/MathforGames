@@ -12,7 +12,6 @@ SpriteObject::SpriteObject(aie::Texture * texture) :m_texture(texture)
 
 void SpriteObject::update(float deltaTime)
 {
-
 	//Logic
 	SceneObject::update(deltaTime);
 

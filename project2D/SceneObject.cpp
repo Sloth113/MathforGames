@@ -46,3 +46,13 @@ void SceneObject::updateGlobalTransform()
 		child->updateGlobalTransform();
 	}
 }
+
+void SceneObject::setLocal(Matrix3 m3)
+{
+	m_localTransform = m3;
+	updateGlobalTransform();
+}
+
+Matrix3 SceneObject::getLocal() {
+	return m_localTransform;
+}
