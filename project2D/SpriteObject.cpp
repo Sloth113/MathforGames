@@ -7,9 +7,12 @@ SpriteObject::SpriteObject()
 
 SpriteObject::SpriteObject(aie::Texture * texture) :m_texture(texture)
 {
-
 }
-
+SpriteObject::SpriteObject(aie::Texture * texture, Vector3 dis) : m_texture(texture)
+{
+	m_localTransform.translate(dis);
+	updateGlobalTransform();
+}
 void SpriteObject::update(float deltaTime)
 {
 	//Logic

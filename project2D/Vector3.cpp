@@ -186,6 +186,11 @@ float Vector3::getMagnitued()
 	return  (float)sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 }
 
+float Vector3::getMagSquar()
+{
+	return x*x + y*y + z*z;
+}
+
 Vector3 Vector3::getNormalise()
 {
 	Vector3 normVec = Vector3(x / getMagnitued(), y / getMagnitued(), z / getMagnitued());

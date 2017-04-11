@@ -43,6 +43,7 @@ public:
    
 
 	float getMagnitued();
+	float getMagSquar();
 	Vector3 getNormalise();
 	void normalise();
 

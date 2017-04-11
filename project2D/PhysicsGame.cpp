@@ -5,7 +5,7 @@
 #include <time.h>
 
 
-
+//ALSO COLLISIONS
 PhysicsGame::PhysicsGame() {
 
 }
@@ -22,62 +22,47 @@ bool PhysicsGame::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
 
-	m_shipTexture = new aie::Texture("./textures/ship.png");
-	m_tankBodyTexture = new aie::Texture("./textures/tankRed.png");
-	m_tankBrlTexture = new aie::Texture("./textures/barrelRed.png");
+	m_buildingT = new aie::Texture("./textures/building1.png");
+	m_personT = new aie::Texture("./textures/person1.png");
+	m_chuteT = new aie::Texture("./textures/chute.png");
+	m_bloodT = new aie::Texture("./textures/bloodsplat.png");
+
+
+	m_person = new SpriteObject(m_personT);
+	m_chute = new SpriteObject(m_chuteT);
+	m_fail = new SpriteObject(m_bloodT);
+
+	
+
 
 	m_cameraX = 0;
 	m_cameraY = 0;
 	m_timer = 0;
 
-	m_point = Vector2(getWindowWidth() / 2.0f, getWindowHeight() / 2.0f);
-	m_pointSpd = 250;
-	m_shapeAmount = 1000;
-	m_shapes = new Vector2[m_shapeAmount];
-	for (int i = 0; i < m_shapeAmount; i++) {
-		m_shapes[i] = Vector2(rand() % getWindowWidth(), rand() % getWindowHeight());
-	}
-	m_point2 = Vector2(0, getWindowHeight());
-
-
-	testVectors = new Vector2[2];
-	testVectors[0] = Vector2(0.6f, 0.8f);
-	testVectors[1] = Vector2(1.0f, 0.0f);
-
-	m_betweenV = m_point;
-	m_shapeSafe = 100;
-	m_shapeScare = 20;
-	m_shapeSpd = 100;
-
-	//shipMat = Matrix3(getWindowWidth() / 2, 0, 0, 0, getWindowHeight() / 2, 0, 0,0,1);
-	shipMat = Matrix3(1, 0, 0, 0, 1, 0, getWindowWidth() / 2, getWindowHeight() / 2, 1);
-
-	shipMat.stdPrintMat();
-
+	
+	
 
 	m_spriteRoot = new SceneObject();
-	//m_spriteRoot->addChild(new SpriteObject(m_shipTexture));
-	/*
-	bulT = new aie::Texture("./textures/bullet.png");
-	enemyTank = new EnemyTank(m_tankBodyTexture);
-	enemyTank->setBullet(bulT);
-	SceneObject * tankBarrlePoint = new SceneObject();
-	Matrix3 barrelMat = tankBarrlePoint->getLocal();
-	barrelMat.setRotateZ(180);
-	tankBarrlePoint->setLocal(barrelMat);
-	enemyTank->addChild(tankBarrlePoint);
-	SpriteObject * tankBarrel = new SpriteObject(m_tankBrlTexture);
+	
+	SpriteObject * building = new SpriteObject(m_buildingT, Vector3(87/2,600/2,0));
+	m_spriteRoot->addChild(building);
 
-	tankBarrel->setLocal(Matrix3(1, 0, 0, 0, 1, 0, 0, 24, 1));
-	tankBarrlePoint->addChild(tankBarrel);
-	*/
+	m_spriteRoot->addChild(m_person);
+	
+	//
+	
 
 
-	//m_spriteRoot->addChild(new PlayerShip(m_shipTexture));
-	//m_spriteRoot->addChild();
+	m_person->setLocal(Matrix3(Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(50, 602, 1)));
 
 
+	collider = AxisABBox();
 
+	collider2 = AxisABBox();
+
+	ballCol = RoundThings();
+
+	click = false;
 
 	return true;
 }
@@ -85,7 +70,6 @@ bool PhysicsGame::startup() {
 void PhysicsGame::shutdown() {
 
 
-	delete m_shipTexture;
 	delete m_2dRenderer;
 }
 
@@ -97,45 +81,29 @@ void PhysicsGame::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
-	Vector2 toMouse = Vector2(input->getMouseX()*1.0f, input->getMouseY()*1.0f) - m_point;
-
-	if (toMouse.getMagSquar() > 9) {
-		Vector2 pointMoveV = toMouse.getNormalise() * m_pointSpd * deltaTime;
-		m_point.Translate(pointMoveV);
-	}
 
 	m_spriteRoot->update(deltaTime);
 
-	//for (int i = 0; i < m_shapeAmount; i++) {
-	//	//Shape logic
-	//	m_betweenV = m_point - m_shapes[i];
-
-	//	if (m_betweenV.getMagSquar() > m_shapeSafe*m_shapeSafe && !input->isKeyDown(aie::INPUT_KEY_SPACE)) {
-	//		//Move towards
-	//		//tmp move towards
-	//		Vector2 distMoveV = m_betweenV.getNormalise() * m_shapeSpd * deltaTime;
-	//		m_shapes[i].Translate(distMoveV);
-	//	}
-	//	else if (m_betweenV.getMagSquar() < m_shapeScare * m_shapeScare || input->isKeyDown(aie::INPUT_KEY_SPACE)) {
-	//		//Move away
-	//		if (input->isKeyDown(aie::INPUT_KEY_SPACE)) {
-	//			Vector2 randDirectionMod = Vector2(rand() % 100 - 50, rand() % 100 - 50);
-	//			m_betweenV -= randDirectionMod;
-	//		}
-	//		Vector2 runTowards = m_shapes[i] - m_point2;
-	//		Vector2 distMoveV = runTowards.getNormalise() * m_shapeSpd *(rand() % 10)*   deltaTime;
-
-	//		//(rand() % 10)
-	//		m_shapes[i].Translate(distMoveV*-1.0f);
-	//	}
-	//}
-
-	//Keyboard control
-	// use arrow keys to move ship
 
 
+	if (!click  && input->isMouseButtonDown(0)) {
+		click = true;
+		collider.expand(input->getMouseX(), input->getMouseY());
+	}else	if (!click  && input->isMouseButtonDown(1)) {
+		click = true;
+		ballCol.expand(input->getMouseX(), input->getMouseY());
+	}
+	else {
+		click = false;
+	}
 
-	//shipMat.stdPrintMat();
+	if (input->isKeyDown(aie::INPUT_KEY_SPACE)) {
+		collider.expand(collider2);
+		collider2 = AxisABBox();
+	}
+
+
+	 
 
 	//Keyboard control
 	// use arrow keys to move camera
@@ -169,49 +137,40 @@ void PhysicsGame::draw() {
 	// set the camera position before we begin rendering
 	m_2dRenderer->setCameraPos(m_cameraX, m_cameraY);
 
-	// begin drawing sprites
 	m_2dRenderer->begin();
 
 
-	/*
-	// draw player
-	m_2dRenderer->setRenderColour(0, 1, 1, 1);
-	m_2dRenderer->drawCircle(m_point.getX(), m_point.getY(), 10, 5);
+	m_2dRenderer->setRenderColour(1, 1, 1, 1);
+
+	//m_2dRenderer->drawSprite(m_buildingT, 0, 0, 100, 100, 0, 0, 0, 0);
+	m_spriteRoot->draw(m_2dRenderer);
 
 
-
-	// draw player
-	m_2dRenderer->setRenderColour(0, 0, 1, 1);
-	m_2dRenderer->drawCircle(m_point2.getX(), m_point2.getY(), 10, 5);
-
-	// draw the shape thing thats watching
-	m_2dRenderer->setRenderColour(1, 0, 0, 1);
-	for (int i = 0; i < m_shapeAmount; i++) {
-	m_2dRenderer->drawBox(m_shapes[i].getX(), m_shapes[i].getY(), 3, 3, 0);
+	
+/*	if (collider.collides(ballCol)) {
+		m_2dRenderer->setRenderColour(1, 0, 0, 1);
+	}
+	else {
+		m_2dRenderer->setRenderColour(0, 0, 1, 1);
 	}
 	*/
-	m_2dRenderer->setRenderColour(1, 1, 1, 1);
-	//m_2dRenderer->drawSpriteTransformed3x3(m_shipTexture, (float *)shipMat);
-	m_spriteRoot->draw(m_2dRenderer);
+
+
+	m_2dRenderer->drawLine(collider.xMin, collider.yMin, collider.xMin, collider.yMax, 1.0f, 0.0f);//left side
+	m_2dRenderer->drawLine(collider.xMin, collider.yMin, collider.xMax, collider.yMin, 1.0f, 0.0f);//Bottom
+	m_2dRenderer->drawLine(collider.xMin, collider.yMax, collider.xMax, collider.yMax, 1.0f, 0.0f);//top
+	m_2dRenderer->drawLine(collider.xMax, collider.yMin, collider.xMax, collider.yMax, 1.0f, 0.0f);//right
+
+	m_2dRenderer->drawCircle(ballCol.x, ballCol.y, ballCol.radi, 0);
 	/*
-	char text[32];
-	sprintf_s(text, 32, "FPS: %i", getFPS());
-	m_2dRenderer->drawText(m_font, text, 0, 720 - 32);
-
-	sprintf_s(text, 32, "A: %f", testVectors[0].angleBetween(testVectors[1]));
-	m_2dRenderer->drawText(m_font, text, 0, 720 - 62);
-
-	sprintf_s(text, 32, "Dot: %f", testVectors[0].dot(testVectors[1]));
-	m_2dRenderer->drawText(m_font, text, 0, 720 - 98);
-
+	m_2dRenderer->drawLine(collider2.xMin, collider2.yMin, collider2.xMin, collider2.yMax, 1.0f, 0.0f);//left side
+	m_2dRenderer->drawLine(collider2.xMin, collider2.yMin, collider2.xMax, collider2.yMin, 1.0f, 0.0f);//Bottom
+	m_2dRenderer->drawLine(collider2.xMin, collider2.yMax, collider2.xMax, collider2.yMax, 1.0f, 0.0f);//top
+	m_2dRenderer->drawLine(collider2.xMax, collider2.yMin, collider2.xMax, collider2.yMax, 1.0f, 0.0f);//right
 	*/
 
-	// draw a thin line
 
-	//m_2dRenderer->setRenderColour(1, 0, 1, 1);
-	//m_2dRenderer->drawLine(m_point.getX(), m_point.getY(), m_shape.getX(), m_shape.getY() , 2, 1);
-
-
+																				   
 	// done drawing sprites
 	m_2dRenderer->end();
 }

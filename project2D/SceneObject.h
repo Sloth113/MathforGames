@@ -8,9 +8,13 @@ class SceneObject {
 	//2D game object, static sprite
 public:
 	SceneObject();
-	virtual ~SceneObject();;
+	virtual ~SceneObject();
 
 	void addChild(SceneObject * child);
+	void removeChild(int i);
+	void removeChild(SceneObject * child);
+	void removeChildren();
+
 
 	virtual void update(float deltaTime);
 

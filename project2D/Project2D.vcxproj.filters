@@ -25,6 +25,12 @@
     <Filter Include="Source Files\GameStuff">
       <UniqueIdentifier>{fae9b87a-968c-46ff-835c-61637d408a6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Collisions">
+      <UniqueIdentifier>{384913c3-c0de-4523-a050-68920c371cb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Collisions">
+      <UniqueIdentifier>{7b0f3a5c-1a57-4969-8d0b-0263ef9d085a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application2D.cpp">
@@ -75,6 +81,15 @@
     <ClCompile Include="TankBullet.cpp">
       <Filter>Source Files\GameStuff</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AxisABBox.cpp">
+      <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="RoundThings.cpp">
+      <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MatrixGame.h">
@@ -121,6 +136,15 @@
     </ClInclude>
     <ClInclude Include="TankBullet.h">
       <Filter>Header Files\GameStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AxisABBox.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="RoundThings.h">
+      <Filter>Header Files\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,6 +7,8 @@
 #include "Renderer2D.h"
 #include "Audio.h"
 #include "SpriteObject.h"
+#include "AxisABBox.h"
+#include "RoundThings.h"
 
 class PhysicsGame : public aie::Application {
 public:
@@ -27,38 +29,38 @@ protected:
 
 
 
-	aie::Texture*		m_texture;
-	aie::Texture*		m_shipTexture;
-	aie::Texture*		m_tankBodyTexture;
-	aie::Texture*		m_tankBrlTexture;
-	aie::Texture *		bulT;
+	aie::Texture*		m_buildingT;
+	aie::Texture*		m_personT;
+	aie::Texture*		m_chuteT;
+	aie::Texture*		m_bloodT;
+
+
+	
 
 	float m_cameraX, m_cameraY;
 	float m_timer;
 
 
-	Vector2 m_point2;
-
-	Vector2 m_point;
-	float m_pointSpd;
-	bool m_pointKeys;
-
-	Vector2 * m_shapes;
-	int m_shapeAmount;
-	float m_shapeSpd;
-	int m_shapeSafe;
-	int m_shapeScare;
-
-	Vector2 * testVectors;
-
-	Vector2 m_betweenV;
-
-	Matrix3 shipMat;
-
-
+	
 
 	//Scene heirarchie stuff
 	SceneObject* m_spriteRoot;
+
+	SpriteObject* m_person;
+	SpriteObject* m_chute;
+	SpriteObject* m_fail;
+
+
+
+
+	//Physics checks 
+	AxisABBox collider;
+
+	AxisABBox collider2;
+
+	RoundThings ballCol;
+
+	bool click;
 
 
 
