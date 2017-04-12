@@ -148,10 +148,21 @@ bool RoundThings::collides(RoundThings r)
 	return false;
 }
 
-bool RoundThings::collides(AxisABBox a)
+bool RoundThings::collides2D(AxisABBox a)
 {
-	//things
-	return false;
+	Vector2 point = Vector2(x, y);
+	//Clamp
+	if (x > a.xMax)
+		point.x = a.xMax;
+	if (x < a.xMin)
+		point.x = a.xMin;
+	if (y > a.yMax)
+		point.y = a.yMax;
+	if (y < a.yMin)
+		point.y = a.yMin;
+
+	return this->collides(point);
+
 }
 
 

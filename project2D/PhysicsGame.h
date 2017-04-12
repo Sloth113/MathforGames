@@ -50,8 +50,12 @@ protected:
 	SpriteObject* m_chute;
 	SpriteObject* m_fail;
 
-
-
+	Vector3 playerVel;
+	
+	bool falling;
+	bool chute;
+	int state;
+	float sped;
 
 	//Physics checks 
 	AxisABBox collider;

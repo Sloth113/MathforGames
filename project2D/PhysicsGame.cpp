@@ -61,8 +61,12 @@ bool PhysicsGame::startup() {
 	collider2 = AxisABBox();
 
 	ballCol = RoundThings();
-
+	falling = false;
+	chute = false;
 	click = false;
+	state = 0;
+	sped = 0;
+	playerVel = Vector3(0, 0, 1);
 
 	return true;
 }
@@ -88,21 +92,72 @@ void PhysicsGame::update(float deltaTime) {
 
 	if (!click  && input->isMouseButtonDown(0)) {
 		click = true;
-		collider.expand(input->getMouseX(), input->getMouseY());
+		collider.expand(input->getMouseX()+ m_cameraX, input->getMouseY()+ m_cameraY);
 	}else	if (!click  && input->isMouseButtonDown(1)) {
 		click = true;
-		ballCol.expand(input->getMouseX(), input->getMouseY());
+		ballCol.expand(input->getMouseX()+ m_cameraX, input->getMouseY()+m_cameraY);
 	}
 	else {
 		click = false;
 	}
 
-	if (input->isKeyDown(aie::INPUT_KEY_SPACE)) {
-		collider.expand(collider2);
-		collider2 = AxisABBox();
+	
+
+
+	
+
+	//Player control
+	if (input->isKeyDown(aie::INPUT_KEY_D)) {
+		Matrix3 newPos = m_person->getLocal();
+		newPos.translate(Vector3(30*deltaTime,0,1));
+		m_person->setLocal(newPos);
 	}
 
+	if (input->isKeyDown(aie::INPUT_KEY_SPACE) && falling && !chute) {
+		m_person->addChild(m_chute);
+		m_chute->setLocal(Matrix3(Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(0, 3, 1)));
+		chute = true;
+		//Make timer
+	}
 
+	if (m_person->getLocal().matrix[0][2] > 90) {
+		falling = true;
+	}
+	if (m_person->getLocal().matrix[1][2] <= 0) {
+		falling = false;
+		chute = false;
+		if(sped ==0)
+		sped = playerVel.y;
+		if (playerVel.y < -20/2) {
+			//dead
+			state = 3;
+			
+		}
+		else if (playerVel.y > -10/ 2) {
+			//Safe
+			state = 1;
+		}
+		else {
+			//Hurt
+			state = 2;
+		}
+
+		playerVel = Vector3(0, 0, 0);
+
+	}
+	if (falling) {
+		playerVel += Vector3(0, -9.8 * deltaTime /2, 0);
+	}
+	if (chute && playerVel.y < -7/2) {
+		playerVel -= Vector3(0, -30 * deltaTime /2, 0);
+	}else if(chute){
+		playerVel = Vector3(0, -7.0 /2 , 0);
+	}
+	
+
+	Matrix3 newPos = m_person->getLocal();
+	newPos.translate(playerVel);
+	m_person->setLocal(newPos);
 	 
 
 	//Keyboard control
@@ -147,13 +202,13 @@ void PhysicsGame::draw() {
 
 
 	
-/*	if (collider.collides(ballCol)) {
+	if (ballCol.collides2D(collider)) {
 		m_2dRenderer->setRenderColour(1, 0, 0, 1);
 	}
 	else {
 		m_2dRenderer->setRenderColour(0, 0, 1, 1);
 	}
-	*/
+
 
 
 	m_2dRenderer->drawLine(collider.xMin, collider.yMin, collider.xMin, collider.yMax, 1.0f, 0.0f);//left side
@@ -168,8 +223,13 @@ void PhysicsGame::draw() {
 	m_2dRenderer->drawLine(collider2.xMin, collider2.yMax, collider2.xMax, collider2.yMax, 1.0f, 0.0f);//top
 	m_2dRenderer->drawLine(collider2.xMax, collider2.yMin, collider2.xMax, collider2.yMax, 1.0f, 0.0f);//right
 	*/
+	char * text = new char[32];
 
+	sprintf_s(text, 32, "Falling: %i", state);
+	m_2dRenderer->drawText(m_font, text, 0, 720 - 32);
 
+	sprintf_s(text, 32, "Speed: %f", sped);
+	m_2dRenderer->drawText(m_font, text, 0, 720 - 64);
 																				   
 	// done drawing sprites
 	m_2dRenderer->end();

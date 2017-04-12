@@ -32,6 +32,6 @@ public:
 	bool collides(Vector2 v);
 	bool collides(Vector3 v);
 	bool collides(RoundThings r);
-	bool collides(AxisABBox a);
+	bool collides2D(AxisABBox a);
 
 };

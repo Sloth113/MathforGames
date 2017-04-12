@@ -190,7 +190,7 @@ void Matrix4::setRotateX(float angle)
 void Matrix4::setRotateY(float angle)
 {
 	float degToRad = M_PI / 180.0f; //
-	Matrix3 rotateMatY = Matrix3(cos(angle*degToRad), 0, sin(angle*degToRad), 0, 1, 0, -sin(angle*degToRad), 0, cos(angle*degToRad));
+	Matrix3 rotateMatY = Matrix3(cos(angle*degToRad), 0, -sin(angle*degToRad), 0, 1, 0, sin(angle*degToRad), 0, cos(angle*degToRad));
 	(*this) = (*this) * rotateMatY;
 }
 
