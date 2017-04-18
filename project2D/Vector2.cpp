@@ -105,6 +105,20 @@ Vector2 & Vector2::operator/=(float scalar)
 	return *this;
 }
 
+float & Vector2::operator[](const int index)
+{
+	if (index <= 0) return x;
+	if (index >= 1) return y;
+}
+
+Vector2::operator float*()
+{
+	float * ar = new float[2];
+	ar[0] = x;
+	ar[1] = y;
+	return ar;
+}
+
 float Vector2::getX()
 {
 	return x;

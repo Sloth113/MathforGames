@@ -55,12 +55,19 @@ bool PhysicsGame::startup() {
 
 	m_person->setLocal(Matrix3(Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(50, 602, 1)));
 
-
+	//Collision box checks
 	collider = AxisABBox();
 
 	collider2 = AxisABBox();
 
 	ballCol = RoundThings();
+
+	ray = Rays();
+
+
+
+
+	//Parachute stuuff
 	falling = false;
 	chute = false;
 	click = false;
@@ -84,24 +91,28 @@ void PhysicsGame::update(float deltaTime) {
 	m_timer += deltaTime;
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-
+	
 
 	m_spriteRoot->update(deltaTime);
 
 
-
+	//Collider stuff
 	if (!click  && input->isMouseButtonDown(0)) {
 		click = true;
 		collider.expand(input->getMouseX()+ m_cameraX, input->getMouseY()+ m_cameraY);
 	}else	if (!click  && input->isMouseButtonDown(1)) {
 		click = true;
-		ballCol.expand(input->getMouseX()+ m_cameraX, input->getMouseY()+m_cameraY);
+		if (ray.origin.x == 0)
+			ray.origin = Vector3(input->getMouseX() + m_cameraX, input->getMouseY() + m_cameraY, 0);
+		else
+			ray.direction = Vector3(input->getMouseX() + m_cameraX, input->getMouseY() + m_cameraY, 0) - ray.origin;
+		//ballCol.expand(input->getMouseX()+ m_cameraX, input->getMouseY()+m_cameraY);
 	}
 	else {
 		click = false;
 	}
-
-	
+	closePos = ray.closestPoint(Vector3(input->getMouseX() + m_cameraX, input->getMouseY() + m_cameraY, 0));
+	//std::cout << ray.distFrom(Vector3(input->getMouseX() + m_cameraX, input->getMouseY() + m_cameraY, 0)) << "\n";
 
 
 	
@@ -146,12 +157,14 @@ void PhysicsGame::update(float deltaTime) {
 
 	}
 	if (falling) {
-		playerVel += Vector3(0, -9.8 * deltaTime /2, 0);
+		playerVel += Vector3(0, -9.8 * deltaTime*deltaTime /2, 0);
 	}
 	if (chute && playerVel.y < -7/2) {
-		playerVel -= Vector3(0, -30 * deltaTime /2, 0);
-	}else if(chute){
+		playerVel -= Vector3(0, -30 * deltaTime*deltaTime /2, 0);
+	}else if(chute && playerVel.y <= -7/2){
 		playerVel = Vector3(0, -7.0 /2 , 0);
+	}else if(chute){
+		playerVel += Vector3(0, -7.0 * deltaTime * deltaTime / 2, 0);
 	}
 	
 
@@ -215,22 +228,33 @@ void PhysicsGame::draw() {
 	m_2dRenderer->drawLine(collider.xMin, collider.yMin, collider.xMax, collider.yMin, 1.0f, 0.0f);//Bottom
 	m_2dRenderer->drawLine(collider.xMin, collider.yMax, collider.xMax, collider.yMax, 1.0f, 0.0f);//top
 	m_2dRenderer->drawLine(collider.xMax, collider.yMin, collider.xMax, collider.yMax, 1.0f, 0.0f);//right
+	
 
-	m_2dRenderer->drawCircle(ballCol.x, ballCol.y, ballCol.radi, 0);
-	/*
+	//Line
+	m_2dRenderer->drawLine(ray.origin.x, ray.origin.y, ray.direction.x+ray.origin.x, ray.direction.y+ray.origin.y, 1.0f, 0.0f);
+
+	//closest point to input
+	m_2dRenderer->setRenderColour(1, 1, 1, 1);
+	m_2dRenderer->drawCircle(closePos.x, closePos.y, 3, 0);
+	//Ball 
+	//m_2dRenderer->drawCircle(ballCol.x, ballCol.y, ballCol.radi, 0);
+	/* //box
 	m_2dRenderer->drawLine(collider2.xMin, collider2.yMin, collider2.xMin, collider2.yMax, 1.0f, 0.0f);//left side
 	m_2dRenderer->drawLine(collider2.xMin, collider2.yMin, collider2.xMax, collider2.yMin, 1.0f, 0.0f);//Bottom
 	m_2dRenderer->drawLine(collider2.xMin, collider2.yMax, collider2.xMax, collider2.yMax, 1.0f, 0.0f);//top
 	m_2dRenderer->drawLine(collider2.xMax, collider2.yMin, collider2.xMax, collider2.yMax, 1.0f, 0.0f);//right
 	*/
 	char * text = new char[32];
-
+	/*
 	sprintf_s(text, 32, "Falling: %i", state);
 	m_2dRenderer->drawText(m_font, text, 0, 720 - 32);
 
 	sprintf_s(text, 32, "Speed: %f", sped);
 	m_2dRenderer->drawText(m_font, text, 0, 720 - 64);
-																				   
+		*/
+
+
+
 	// done drawing sprites
 	m_2dRenderer->end();
 }

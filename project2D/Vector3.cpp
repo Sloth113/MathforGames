@@ -166,6 +166,22 @@ Vector3 & Vector3::operator/=(float scalar)
 
 
 
+float & Vector3::operator[](const int index)
+{
+	if (index <= 0) return x;
+	if (index == 1) return y;
+	if (index >= 2) return z;
+}
+
+Vector3::operator float*()
+{
+	float * ar = new float[3];
+	ar[0] = x;
+	ar[1] = y;
+	ar[2] = z;
+	return ar;
+}
+
 float Vector3::getX()
 {
 	return x;

@@ -9,6 +9,7 @@
 #include "SpriteObject.h"
 #include "AxisABBox.h"
 #include "RoundThings.h"
+#include "Rays.h"
 
 class PhysicsGame : public aie::Application {
 public:
@@ -63,6 +64,9 @@ protected:
 	AxisABBox collider2;
 
 	RoundThings ballCol;
+
+	Rays ray;
+	Vector3 closePos;
 
 	bool click;
 

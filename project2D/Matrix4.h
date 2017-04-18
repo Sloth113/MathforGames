@@ -39,7 +39,7 @@ public:
 	Matrix4 getTranspose();
 	void transpose();
 
-	Vector4 * operator [] (const int axis);
+	Vector4 & operator [] (const int axis);
 
 	operator float*();
 

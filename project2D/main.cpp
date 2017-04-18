@@ -5,7 +5,7 @@ int main() {
 	
 
 	//auto app = new Application2D();
-	//auto app = new MatrixGame();
+//auto app = new MatrixGame();
 	auto app = new PhysicsGame();
 	app->run("AIE", 1280, 720, false);
 	delete app;

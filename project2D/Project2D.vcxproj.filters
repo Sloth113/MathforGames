@@ -90,6 +90,9 @@
     <ClCompile Include="RoundThings.cpp">
       <Filter>Source Files\Collisions</Filter>
     </ClCompile>
+    <ClCompile Include="Rays.cpp">
+      <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MatrixGame.h">
@@ -144,6 +147,9 @@
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
     <ClInclude Include="RoundThings.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Rays.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
   </ItemGroup>

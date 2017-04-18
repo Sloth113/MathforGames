@@ -34,7 +34,7 @@ public:
 	Matrix3 getTranspose();
 	void transpose();
 
-	Vector3* operator [] (const int axis);
+	Vector3& operator [] (const int axis);
 
 	operator float*();
 

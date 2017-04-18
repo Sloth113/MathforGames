@@ -22,7 +22,7 @@ public:
 	Matrix2 getTranspose();
 	void transpose();
 
-	float* operator [] (const int axis);
+	Vector2& operator [] (const int axis);
 
 	operator float*();
 

@@ -41,6 +41,10 @@ public:
 	//Vector3 operator *(float scalar);
 	//Vector3 operator /(float scalar);
 
+
+	float& operator[](const int index);
+	operator float*();
+
 	float getX();
 	float getY();
 	float getZ();

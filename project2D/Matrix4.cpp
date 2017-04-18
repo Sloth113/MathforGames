@@ -141,9 +141,12 @@ void Matrix4::transpose()
 	}
 }
 
-Vector4 * Matrix4::operator[](const int axis)
+Vector4 & Matrix4::operator[](const int axis)
 {
-	return nullptr;
+	if (axis <= 0) return Vector4(matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0]);
+	if (axis == 1) return Vector4(matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1]);
+	if (axis == 2) return Vector4(matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2]);
+	if (axis >= 3) return Vector4(matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
 }
 
 Matrix4::operator float*()

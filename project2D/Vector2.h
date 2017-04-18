@@ -28,7 +28,9 @@ public:
 	Vector2 & operator *=(float scalar);
 	Vector2 & operator /=(float scalar);
 
-
+	//const float& operator[](const int index);
+	float& operator[](const int index);
+	operator float*();
 
 	float getX();
 	float getY();

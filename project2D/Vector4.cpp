@@ -134,6 +134,24 @@ Vector4 & Vector4::operator/=(float scalar)
 	return *this;
 }
 
+float & Vector4::operator[](const int index)
+{
+	if (index <= 0) return x;
+	if (index == 1) return y;
+	if (index == 2) return z;
+	if (index >= 3) return w;
+}
+
+Vector4::operator float*()
+{
+	float * ar = new float[4];
+	ar[0] = x;
+	ar[1] = y;
+	ar[2] = z;
+	ar[3] = w;
+	return ar;
+}
+
 float Vector4::getX()
 {
 	return x;

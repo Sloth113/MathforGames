@@ -101,14 +101,12 @@ void Matrix3::transpose()
 }
 
 
-
-//
-//
-//https://social.msdn.microsoft.com/Forums/vstudio/en-US/517a601d-5e1f-4d72-8927-32e80a094da9/overloading-subscript-operator-separating-setting-and-getting-values?forum=vclanguage
-//http://stackoverflow.com/questions/3581981/overloading-the-c-indexing-subscript-operator-in-a-manner-that-allows-for-r
-Vector3 * Matrix3::operator[](const int axis)
+Vector3 & Matrix3::operator[](const int axis)
 {
-	return nullptr; //DO THE UNION THING HERE TO MAKE SHIT WORK ?
+	if (axis <= 0) return Vector3(matrix[0][0], matrix[1][0], matrix[2][0]);
+	if (axis == 1) return Vector3(matrix[0][1], matrix[1][1], matrix[2][1]);
+	if (axis >= 2) return Vector3(matrix[0][2], matrix[1][2], matrix[2][2]);
+	
 }
 
 

@@ -82,9 +82,10 @@ void Matrix2::transpose()
 	}
 }
 
-float * Matrix2::operator[](const int axis)
+Vector2 & Matrix2::operator[](const int axis)
 {
-	return nullptr;
+	if (axis <= 0) return Vector2(matrix[0][0],matrix[1][0]);
+	if (axis >= 1) return Vector2(matrix[0][1], matrix[1][1]);
 }
 
 

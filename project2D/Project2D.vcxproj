@@ -100,6 +100,7 @@
     <ClCompile Include="MatrixGame.cpp" />
     <ClCompile Include="PhysicsGame.cpp" />
     <ClCompile Include="PlayerShip.cpp" />
+    <ClCompile Include="Rays.cpp" />
     <ClCompile Include="RoundThings.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShapeObject.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="MatrixGame.h" />
     <ClInclude Include="PhysicsGame.h" />
     <ClInclude Include="PlayerShip.h" />
+    <ClInclude Include="Rays.h" />
     <ClInclude Include="RoundThings.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ShapeObject.h" />
