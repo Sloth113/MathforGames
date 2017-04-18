@@ -105,7 +105,8 @@ void PhysicsGame::update(float deltaTime) {
 		if (ray.origin.x == 0)
 			ray.origin = Vector3(input->getMouseX() + m_cameraX, input->getMouseY() + m_cameraY, 0);
 		else
-			ray.direction = Vector3(input->getMouseX() + m_cameraX, input->getMouseY() + m_cameraY, 0) - ray.origin;
+			ray = Rays(ray.origin, Vector3(input->getMouseX() + m_cameraX, input->getMouseY() + m_cameraY, 0));
+			//ray.direction = Vector3(input->getMouseX() + m_cameraX, input->getMouseY() + m_cameraY, 0) - ray.origin;
 		//ballCol.expand(input->getMouseX()+ m_cameraX, input->getMouseY()+m_cameraY);
 	}
 	else {
@@ -215,7 +216,7 @@ void PhysicsGame::draw() {
 
 
 	
-	if (ballCol.collides2D(collider)) {
+	if (ray.collides2D(collider)) {
 		m_2dRenderer->setRenderColour(1, 0, 0, 1);
 	}
 	else {
@@ -231,7 +232,7 @@ void PhysicsGame::draw() {
 	
 
 	//Line
-	m_2dRenderer->drawLine(ray.origin.x, ray.origin.y, ray.direction.x+ray.origin.x, ray.direction.y+ray.origin.y, 1.0f, 0.0f);
+	m_2dRenderer->drawLine(ray.origin.x, ray.origin.y, ray.direction.x*ray.length+ray.origin.x, ray.direction.y*ray.length+ray.origin.y, 1.0f, 0.0f);
 
 	//closest point to input
 	m_2dRenderer->setRenderColour(1, 1, 1, 1);

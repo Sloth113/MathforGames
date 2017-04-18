@@ -50,8 +50,7 @@ public:
 	float getZ();
 	float getW();
 
-
-	float getMagnitued();
+	float magnitude();
 	Vector4 getNormalise();
 	void normalise();
 

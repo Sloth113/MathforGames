@@ -129,7 +129,7 @@ float Vector2::getY()
 	return y;
 }
 
-float Vector2::getMagnitued()
+float Vector2::magnitude()
 {
 	return (float)sqrt(pow(x,2.0)+pow(y,2.0));
 }
@@ -139,13 +139,13 @@ float Vector2::getMagSquar()
 }
 Vector2 Vector2::getNormalise()
 {
-	Vector2 normVec = Vector2(x / getMagnitued(), y / getMagnitued());
+	Vector2 normVec = Vector2(x / magnitude(), y / magnitude());
 	return normVec;
 }
 
 void Vector2::normalise()
 {
-	*this = *this / getMagnitued();
+	*this = *this / magnitude();
 }
 
 float Vector2::dot(const Vector2 & other)

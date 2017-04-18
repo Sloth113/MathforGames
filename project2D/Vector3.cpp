@@ -197,7 +197,7 @@ float Vector3::getZ()
 	return z;
 }
 
-float Vector3::getMagnitued()
+float Vector3::magnitude()
 {
 	return  (float)sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 }
@@ -209,13 +209,13 @@ float Vector3::getMagSquar()
 
 Vector3 Vector3::getNormalise()
 {
-	Vector3 normVec = Vector3(x / getMagnitued(), y / getMagnitued(), z / getMagnitued());
+	Vector3 normVec = Vector3(x / magnitude(), y / magnitude(), z / magnitude());
 	return normVec;
 }
 
 void Vector3::normalise()
 {
-	*this = *this / getMagnitued();
+	*this = *this / magnitude();
 }
 
 float Vector3::dot(const Vector3 & other)

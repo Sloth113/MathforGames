@@ -172,20 +172,20 @@ float Vector4::getW()
 	return w;
 }
 
-float Vector4::getMagnitued()
+float Vector4::magnitude()
 {
 	return  (float)sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 }
 
 Vector4 Vector4::getNormalise()
 {
-	Vector4 normVec = Vector4(x / getMagnitued(), y / getMagnitued(), z / getMagnitued());
+	Vector4 normVec = Vector4(x / magnitude(), y / magnitude(), z / magnitude());
 	return normVec;
 }
 
 void Vector4::normalise()
 {
-	*this = *this / getMagnitued();
+	*this = *this / magnitude();
 }
 
 float Vector4::dot(const Vector4 & other)

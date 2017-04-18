@@ -64,9 +64,7 @@ void RoundThings::expand(Vector2 * points, int size)
 
 void RoundThings::expand(Vector2 point)
 {
-	if (!(this->collides(point))) {
-/////////////
-	}
+	expand(point.x, point.y);
 
 }
 
@@ -81,7 +79,7 @@ void RoundThings::expand(Vector3 point)
 {
 	if (!(this->collides(point))) {
 		Vector3 dis = Vector3(x, y, z) - point;
-		radi = dis.getMagnitued();
+		radi = dis.magnitude();
 	}
 }
 
@@ -89,7 +87,7 @@ void RoundThings::expand(float xPos, float yPos)
 {
 	if (!(this->collides(xPos, yPos))){
 		Vector2 dis = Vector2(x, y) - Vector2(xPos, yPos);
-		radi = dis.getMagnitued();
+		radi = dis.magnitude();
 	}
 }
 
@@ -104,7 +102,7 @@ void RoundThings::expand(RoundThings thing)
 {
 	if (!(this->collides(thing))) {
 		Vector3 dis = Vector3(x, y, z) - Vector3(thing.x, thing.y, thing.z);
-		radi = dis.getMagnitued() + thing.radi;
+		radi = dis.magnitude() + thing.radi;
 	}
 }
 

@@ -5,15 +5,30 @@ Rays::Rays()
 	bool3D = false;
 	origin = Vector3();
 	direction = Vector3();
+	length = 0;
 	
 
 }
 
-Rays::Rays(Vector3 ori, Vector3 dir)
+Rays::Rays(Vector3 ori, Vector3 dir, float len)
 {
 	bool3D = true;
 	origin = ori;
 	direction = dir;
+	direction.normalise();
+	length = len;
+}
+
+Rays::Rays(Vector3 ori, Vector3 to)
+{
+	bool3D = true;
+	origin = ori;
+	
+	Vector3 between = to - ori;
+	length = between.magnitude();
+	
+	between.normalise();
+	direction = between;
 	
 }
 
@@ -22,16 +37,26 @@ Rays::Rays(Vector3 dir)
 	bool3D = true;
 	origin = Vector3();
 	direction = dir;
+	direction.normalise();
+	length = dir.magnitude();
 	
 }
 
 
-Rays::Rays(Vector2 ori, Vector2 dir)
+Rays::Rays(Vector2 ori, Vector2 dir, float len)
+{
+}
+
+Rays::Rays(Vector2 ori, Vector2 to)
 {
 
 	bool3D = false;
 	origin = ori;
-	direction = dir;
+	 
+	Vector3 between = to - ori;
+	length = between.magnitude();
+	direction = between.getNormalise();
+
 
 }
 
@@ -40,6 +65,9 @@ Rays::Rays(Vector2 dir)
 	bool3D = false;
 	origin = Vector2();
 	direction = dir;
+
+	length = dir.magnitude();
+	direction.normalise();
 
 }
 
@@ -53,36 +81,35 @@ bool Rays::collides(RoundThings thing)
 	}
 }
 
-bool Rays::collides(AxisABBox thing)
+bool Rays::collides2D(AxisABBox thing)
 {
+	////THIS FIGURE THIS OUT >_> 
+
 	return false;
 }
 
-bool Rays::collides(Vector3 point)
+bool Rays::collides(Vector3 point, float tol)
 {
-	return false;
+	RoundThings tmp = RoundThings(point, tol / 2);
+
+	return collides(tmp);
 }
 
-bool Rays::collides(Vector2 point)
-{
-	return false;
-}
 
 Vector3 Rays::closestPoint(Vector3 p)
 {
 	Vector3 dist = p - origin;
-	float fromOrig = dist.dot(direction.getNormalise());
+	float fromOrig = dist.dot(direction); 
 	//Clamp
 	if (fromOrig <= 0) fromOrig = 0;
-	if (fromOrig >= direction.getMagnitued()) fromOrig = direction.getMagnitued();
+	if (fromOrig >= length) fromOrig = length;
 
-	dist = direction.getNormalise();
-	return origin + dist * fromOrig;
+	return origin + direction * fromOrig;
 }
 
 float Rays::distFrom(Vector3 p)
 {
 	Vector3 cp = closestPoint(p);
 	cp = cp - p;
-	return cp.getMagnitued();
+	return cp.magnitude();
 }

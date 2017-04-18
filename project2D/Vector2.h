@@ -35,8 +35,7 @@ public:
 	float getX();
 	float getY();
 
-
-	float getMagnitued();
+	float magnitude();
 	float getMagSquar();
 	Vector2 getNormalise();
 	void normalise();
